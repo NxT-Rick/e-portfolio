@@ -1,0 +1,558 @@
+:root {
+      --accent: #2A6BE8;         /* Main blue accent color — used for links, buttons, highlights */
+      --accent-light: #EBF0FD;   /* A pale tint of the accent — used for badge backgrounds */
+      --text: #1A1A2E;           /* Very dark navy — main body text */
+      --muted: #6B7280;          /* Medium gray — secondary/helper text */
+      --bg: #FAFAF8;             /* Off-white — the page background */
+      --card-bg: #FFFFFF;        /* Pure white — project card backgrounds */
+      --border: #E5E7EB;         /* Light gray — borders and dividers */
+      --radius: 12px;            /* How rounded card corners are */
+      --serif: 'DM Serif Display', Georgia, serif;   /* Heading font stack */
+      --sans: 'DM Sans', system-ui, sans-serif;      /* Body font stack */
+    }
+ 
+    /* ─── GLOBAL RESET ───────────────────────────────────────────────────────
+       Browsers add their own default margins/paddings to elements.
+       This "reset" removes those defaults so we start from a clean slate.
+    */
+    *, *::before, *::after {
+      /*
+        * selects every element. ::before and ::after are pseudo-elements
+        (invisible elements CSS can create before/after real elements).
+      */
+      box-sizing: border-box;
+      /*
+        By default, padding and border are ADDED to an element's width.
+        border-box makes them INCLUDED in the width — much more intuitive.
+        Example: a 200px box with 20px padding stays 200px wide (not 240px).
+      */
+      margin: 0;
+      padding: 0;
+    }
+ 
+    html {
+      scroll-behavior: smooth;
+      /*
+        When the user clicks a nav link (e.g., #projects), the page scrolls
+        smoothly instead of jumping instantly.
+      */
+    }
+ 
+    body {
+      /*
+        <body> is everything visible on the page.
+        These styles apply globally to all text unless overridden.
+      */
+      font-family: var(--sans);           /* Use DM Sans for all text */
+      background-color: var(--bg);        /* Off-white page background */
+      color: var(--text);                 /* Dark text by default */
+      line-height: 1.7;                   /* Space between lines — 1.7x the font size */
+      font-size: 16px;                    /* Base font size — all rem units scale from this */
+      -webkit-font-smoothing: antialiased;/* Makes fonts look crisper on Mac/iOS (webkit = Safari/Chrome) */
+    }
+ 
+    /* ─── TYPOGRAPHY HELPERS ─────────────────────────────────────────────── */
+ 
+    h1, h2, h3 {
+      font-family: var(--serif);          /* Use the elegant serif font for all headings */
+      font-weight: 400;                   /* Serif fonts look best at normal weight */
+      line-height: 1.2;                   /* Headings need tighter line spacing than body */
+    }
+ 
+    a {
+      color: var(--accent);               /* Links are blue */
+      text-decoration: none;              /* Remove the default underline */
+    }
+ 
+    a:hover {
+      text-decoration: underline;         /* Underline appears on hover for clarity */
+    }
+ 
+    img {
+      max-width: 100%;                    /* Images never overflow their container */
+      display: block;                     /* Remove the small gap below inline images */
+    }
+ 
+    /* ─── LAYOUT UTILITY ─────────────────────────────────────────────────── */
+ 
+    .container {
+      /*
+        A reusable class that centers content and adds horizontal padding.
+        Applied to each section to keep content within a readable max width.
+      */
+      max-width: 900px;     /* Content doesn't stretch wider than 900px */
+      margin: 0 auto;       /* Left and right margin set to "auto" = centered */
+      padding: 0 24px;      /* 24px gap on left and right on small screens */
+    }
+ 
+    section {
+      padding: 80px 0;      /* 80px of vertical breathing room above and below each section */
+    }
+ 
+    /* ─── NAVIGATION BAR ─────────────────────────────────────────────────── */
+ 
+    nav {
+      position: fixed;
+      /*
+        fixed means the nav stays at the top of the viewport even as you scroll.
+        Without this, the nav would scroll away with the page.
+      */
+      top: 0;
+      left: 0;
+      right: 0;
+      /*
+        top/left/right: 0 pins the nav to all three sides of the viewport,
+        making it full-width at the very top of the screen.
+      */
+      z-index: 100;
+      /*
+        z-index controls stacking order. Higher = in front.
+        100 ensures the nav appears in front of all page content when scrolling.
+      */
+      background: rgba(250, 250, 248, 0.88);
+      /*
+        rgba = Red, Green, Blue, Alpha.
+        Alpha of 0.88 = 88% opaque, 12% transparent.
+        This gives a frosted/translucent glass effect.
+      */
+      backdrop-filter: blur(12px);
+      /*
+        Blurs whatever is BEHIND the nav element (the page content).
+        Combined with the semi-transparent background, this creates a
+        popular "frosted glass" navigation effect.
+        -webkit- prefix needed for Safari compatibility.
+      */
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);  /* Subtle separator line */
+    }
+ 
+    .nav-inner {
+      display: flex;
+      /*
+        display: flex enables Flexbox layout.
+        Flexbox arranges children in a row (by default) or column,
+        with powerful alignment and spacing controls.
+      */
+      justify-content: space-between;
+      /*
+        Pushes the logo to the left and nav links to the right,
+        with all available space between them.
+      */
+      align-items: center;    /* Vertically centers the logo and links */
+      height: 60px;           /* Fixed nav height */
+    }
+ 
+    .nav-logo {
+      font-family: var(--serif);
+      font-size: 1.2rem;      /* rem = relative to the root font size. 1.2rem = 19.2px */
+      font-weight: 400;
+      letter-spacing: -0.5px; /* Slightly tighter letter spacing for elegant look */
+    }
+ 
+    .nav-links {
+      display: flex;
+      gap: 32px;              /* 32px space between each nav link */
+      list-style: none;       /* Remove the default bullet points from <ul> */
+    }
+ 
+    .nav-links a {
+      color: var(--muted);    /* Gray by default */
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s; /* Smoothly animate color change over 0.2 seconds */
+    }
+ 
+    .nav-links a:hover {
+      color: var(--text);     /* Goes dark on hover */
+      text-decoration: none;
+    }
+ 
+    /* ─── HERO SECTION ───────────────────────────────────────────────────── */
+ 
+    #hero {
+      padding-top: 140px;     /* Extra top padding to clear the 60px fixed nav */
+      padding-bottom: 100px;
+      text-align: center;
+    }
+ 
+    .hero-eyebrow {
+      /*
+        The small text above the main heading — sets the context.
+        e.g., "Hi, I'm"
+      */
+      display: inline-block;              /* Allows padding on a text element */
+      background: var(--accent-light);   /* Pale blue background */
+      color: var(--accent);              /* Blue text */
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 6px 14px;
+      border-radius: 100px;             /* Makes it a pill shape (fully rounded) */
+      margin-bottom: 20px;
+      letter-spacing: 0.04em;           /* Slightly spaced out letters */
+    }
+ 
+    .hero-title {
+      font-size: clamp(2.8rem, 7vw, 5rem);
+      /*
+        clamp(min, preferred, max) — a responsive font size:
+        - Never smaller than 2.8rem (44.8px)
+        - Ideally 7vw (7% of viewport width)
+        - Never larger than 5rem (80px)
+        This makes the heading scale naturally across all screen sizes.
+      */
+      color: var(--text);
+      margin-bottom: 20px;
+    }
+ 
+    .hero-title em {
+      /*
+        <em> tags are used for italic text.
+        This styles the italic part of the hero title with an accent color.
+      */
+      color: var(--accent);
+      font-style: italic;
+    }
+ 
+    .hero-subtitle {
+      font-size: 1.15rem;
+      color: var(--muted);      /* Gray subtitle text */
+      max-width: 500px;         /* Keeps the line short for readability */
+      margin: 0 auto 36px;      /* Top: 0, Left/Right: auto (centered), Bottom: 36px */
+    }
+ 
+    .hero-cta {
+      /*
+        CTA = Call To Action — the main action button.
+      */
+      display: inline-block;
+      background: var(--accent);    /* Solid blue background */
+      color: #fff;                   /* White text */
+      padding: 14px 32px;
+      border-radius: 8px;
+      font-weight: 500;
+      font-size: 1rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+      /*
+        Animate two properties on hover:
+        - transform: used for the lift effect
+        - box-shadow: used for the glow effect
+      */
+    }
+ 
+    .hero-cta:hover {
+      text-decoration: none;
+      transform: translateY(-2px);
+      /*
+        Moves the button 2px upward — creates a "lifting" hover effect.
+        translateY is a CSS transform function.
+      */
+      box-shadow: 0 8px 24px rgba(42, 107, 232, 0.28);
+      /*
+        A blue-tinted shadow beneath the button, making it look elevated.
+        Syntax: x-offset y-offset blur spread color
+      */
+    }
+ 
+    /* ─── SECTION HEADING STYLE ──────────────────────────────────────────── */
+ 
+    .section-label {
+      /*
+        A small all-caps label above each section heading (e.g., "— About Me")
+      */
+      font-family: var(--sans);
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;         /* Wide letter spacing for the all-caps look */
+      text-transform: uppercase;       /* Makes text all caps regardless of what's typed */
+      color: var(--accent);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+ 
+    .section-label::before {
+      /*
+        ::before is a pseudo-element — creates a decorative element BEFORE
+        the text without adding extra HTML.
+        Here it draws a short horizontal line before the label.
+      */
+      content: '';                  /* Required — the pseudo-element exists but is empty */
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--accent);
+      border-radius: 2px;
+    }
+ 
+    .section-heading {
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      margin-bottom: 16px;
+    }
+ 
+    .section-desc {
+      color: var(--muted);
+      max-width: 520px;
+      font-size: 1rem;
+    }
+ 
+    /* ─── ABOUT SECTION ──────────────────────────────────────────────────── */
+ 
+    .about-grid {
+      display: grid;
+      /*
+        CSS Grid divides a container into rows and columns.
+        Here we create two columns: the first is 1 fraction unit wide,
+        the second is 2 fraction units wide (so it's twice as wide).
+      */
+      grid-template-columns: 1fr 2fr;
+      gap: 56px;              /* Space between the two columns */
+      align-items: start;     /* Align content to the top of each grid cell */
+      margin-top: 48px;
+    }
+ 
+    .about-avatar {
+      width: 100%;
+      aspect-ratio: 1 / 1;   /* Forces the element to always be a perfect square */
+      border-radius: 16px;
+      background: var(--accent-light);    /* Placeholder background until you add a real photo */
+      display: flex;
+      align-items: center;
+      justify-content: center;            /* Centers the initials text inside */
+      font-family: var(--serif);
+      font-size: 3rem;
+      color: var(--accent);
+      overflow: hidden;                   /* Clips any content (like a photo) to the border-radius */
+    }
+ 
+    .about-text p {
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+ 
+    .skills-heading {
+      font-family: var(--sans);
+      font-weight: 500;
+      font-size: 0.9rem;
+      color: var(--text);
+      margin: 28px 0 12px;
+    }
+ 
+    .skills-grid {
+      display: flex;
+      flex-wrap: wrap;     /* Items wrap to the next line if they don't fit */
+      gap: 8px;
+    }
+ 
+    .skill-badge {
+      background: var(--accent-light);
+      color: var(--accent);
+      font-size: 0.8rem;
+      font-weight: 500;
+      padding: 5px 12px;
+      border-radius: 100px;   /* Pill shape */
+    }
+ 
+    /* ─── PROJECTS SECTION ───────────────────────────────────────────────── */
+ 
+    #projects {
+      background: var(--card-bg);
+      /*
+        A very subtle change from the slightly off-white page background
+        to pure white creates visual separation between sections.
+      */
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+ 
+    .projects-header {
+      margin-bottom: 48px;
+    }
+ 
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      /*
+        repeat(auto-fit, ...) — creates as many columns as will fit.
+        minmax(260px, 1fr) — each column is at least 260px wide, expands to fill space.
+        Result: 3 columns on wide screens, 2 on medium, 1 on mobile — automatically.
+      */
+      gap: 24px;
+    }
+ 
+    .project-card {
+      background: var(--bg);         /* Slightly off-white card on white section */
+      border: 1px solid var(--border);
+      border-radius: var(--radius);  /* Uses the --radius variable (12px) */
+      padding: 28px;
+      display: flex;
+      flex-direction: column;        /* Stack children vertically instead of side-by-side */
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+ 
+    .project-card:hover {
+      transform: translateY(-4px);   /* Lift the card 4px upward on hover */
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);  /* Soft shadow on hover */
+    }
+ 
+    .project-icon {
+      font-size: 2rem;               /* Large emoji icon at the top of each card */
+      margin-bottom: 16px;
+    }
+ 
+    .project-tag {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--accent);
+      background: var(--accent-light);
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 100px;
+      margin-bottom: 10px;
+    }
+ 
+    .project-title {
+      font-family: var(--serif);
+      font-size: 1.25rem;
+      margin-bottom: 10px;
+    }
+ 
+    .project-desc {
+      font-size: 0.9rem;
+      color: var(--muted);
+      flex: 1;
+      /*
+        flex: 1 makes this element grow to fill available vertical space in the
+        flex column. This pushes the links to the bottom of all cards evenly,
+        even if descriptions have different lengths.
+      */
+      margin-bottom: 20px;
+    }
+ 
+    .project-links {
+      display: flex;
+      gap: 16px;
+    }
+ 
+    .project-links a {
+      font-size: 0.85rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+ 
+    .project-links .link-demo {
+      color: var(--accent);     /* Blue for the live demo link */
+    }
+ 
+    .project-links .link-code {
+      color: var(--muted);      /* Gray for the GitHub/code link */
+    }
+ 
+    /* ─── CONTACT SECTION ────────────────────────────────────────────────── */
+ 
+    #contact {
+      text-align: center;
+    }
+ 
+    .contact-wrapper {
+      margin-top: 48px;
+    }
+ 
+    .contact-email {
+      font-family: var(--serif);
+      font-size: clamp(1.5rem, 4vw, 2.4rem);
+      color: var(--text);
+      display: inline-block;
+      margin-bottom: 36px;
+      transition: color 0.2s;
+    }
+ 
+    .contact-email:hover {
+      color: var(--accent);
+      text-decoration: none;
+    }
+ 
+    .social-links {
+      display: flex;
+      justify-content: center;   /* Center the social icons row */
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+ 
+    .social-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--muted);
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      padding: 10px 20px;
+      border-radius: 8px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+ 
+    .social-link:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+      text-decoration: none;
+    }
+ 
+    /* ─── FOOTER ─────────────────────────────────────────────────────────── */
+ 
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 0;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+ 
+    /* ─── RESPONSIVE DESIGN ──────────────────────────────────────────────── */
+ 
+    @media (max-width: 640px) {
+      /*
+        @media is a "media query" — CSS that only applies at certain screen sizes.
+        max-width: 640px means: "apply these rules ONLY on screens 640px wide or less"
+        (i.e., phones and small tablets).
+      */
+ 
+      .about-grid {
+        grid-template-columns: 1fr;   /* Switch from 2-column to 1-column layout on mobile */
+      }
+ 
+      .about-avatar {
+        max-width: 160px;             /* Limit photo size on mobile */
+      }
+ 
+      .nav-links {
+        gap: 18px;                    /* Reduce gap between nav links on mobile */
+      }
+
+/* ===== Premium Scroll Reveal ===== */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(50px) scale(0.96);
+  transition: all 0.9s cubic-bezier(.21,1.02,.73,1);
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* stagger effect */
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+    }
+    img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}

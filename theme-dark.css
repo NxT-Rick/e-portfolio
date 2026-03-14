@@ -1,0 +1,576 @@
+/*
+  ============================================================
+  theme-dark.css — Dark Blue Theme Override
+  ============================================================
+
+  HOW TO USE THIS FILE:
+  Add this single line to your portfolio.html, inside the <head>
+  tag, AFTER the existing <style> block:
+
+      <link rel="stylesheet" href="theme-dark.css">
+
+  Because it loads AFTER the original styles, every rule here
+  "wins" over the original — this is the "Cascading" part of CSS.
+  You never have to touch portfolio.html's <style> block at all.
+  ============================================================
+*/
+
+
+/* ─────────────────────────────────────────────────────────────
+   STEP 1: REDEFINE THE COLOR PALETTE
+   All colors live in CSS variables on :root.
+   By overriding just these variables, every element that uses
+   them automatically updates — no hunting down individual rules.
+───────────────────────────────────────────────────────────── */
+
+:root {
+  --accent:       #4D9FFF;
+  /*
+    A vivid sky blue — the primary interactive color.
+    Used for links, buttons, badges, and the CTA.
+    Chosen to pop clearly against dark backgrounds.
+  */
+
+  --accent-light: rgba(77, 159, 255, 0.12);
+  /*
+    A very transparent tint of the accent.
+    Used as a soft fill behind skill badges and tags.
+    rgba() lets us control opacity (0.12 = 12% opaque).
+  */
+
+  --text:         #E8EDF5;
+  /*
+    Off-white with a cool blue tint — main body text.
+    Pure white (#fff) can feel harsh on dark backgrounds;
+    this is softer and more readable.
+  */
+
+  --muted:        #7A90B0;
+  /*
+    A desaturated steel blue — used for secondary text
+    like subtitles, project descriptions, and nav links.
+  */
+
+  --bg:           #0D1117;
+  /*
+    Very dark navy — the main page background.
+    Inspired by GitHub's dark theme; feels deep and technical.
+  */
+
+  --card-bg:      #161C27;
+  /*
+    Slightly lighter than --bg — used for the projects section
+    background and project cards, creating subtle layering depth.
+  */
+
+  --border:       #1E2D45;
+  /*
+    A muted dark blue — replaces the light gray borders.
+    Visible enough to separate elements, but not distracting.
+  */
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   STEP 2: BODY BACKGROUND TEXTURE
+   Adds a very subtle dot-grid pattern to the page background.
+   This gives the dark theme depth and a "technical" feel
+   without being visually loud.
+───────────────────────────────────────────────────────────── */
+
+body {
+  background-color: var(--bg);
+  background-image: radial-gradient(
+    rgba(77, 159, 255, 0.07) 1px,
+    transparent 1px
+  );
+  /*
+    radial-gradient() draws a circular gradient.
+    Here each "dot" is 1px wide, 7% opaque blue, surrounded by
+    transparency — creating a tiny dot.
+  */
+  background-size: 28px 28px;
+  /*
+    Repeat the dot pattern every 28px horizontally and vertically,
+    creating a uniform grid of subtle dots across the whole page.
+  */
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   STEP 3: NAVIGATION BAR — dark frosted glass
+───────────────────────────────────────────────────────────── */
+
+nav {
+  background: rgba(13, 17, 23, 0.80);
+  /*
+    80% opaque version of --bg. When combined with backdrop-filter,
+    the page content blurs through it, creating a dark frosted effect.
+  */
+  border-bottom-color: var(--border);
+  /*
+    Override just the border color using our new dark border variable.
+  */
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   STEP 4: HERO SECTION — glowing accent headline
+───────────────────────────────────────────────────────────── */
+
+.hero-title em {
+  color: var(--accent);
+  /*
+    The italic accent phrase inherits the new vivid blue.
+    Combined with the glow below, it becomes the visual focal point.
+  */
+  text-shadow:
+    0 0 40px rgba(77, 159, 255, 0.45),
+    0 0 80px rgba(77, 159, 255, 0.20);
+  /*
+    text-shadow takes: x-offset y-offset blur color.
+    Two layered shadows create a soft "glow" aura:
+    - First layer: tight 40px glow, 45% opaque
+    - Second layer: wide 80px halo, 20% opaque
+    The result is a neon-like luminosity around the accent text.
+  */
+}
+
+.hero-cta {
+  background: var(--accent);
+  color: #0D1117;
+  /*
+    Dark text on a bright button — high contrast for readability.
+    On dark themes, light buttons with dark text often look sharper
+    than the reverse.
+  */
+  font-weight: 600;
+}
+
+.hero-cta:hover {
+  box-shadow: 0 8px 32px rgba(77, 159, 255, 0.40);
+  /*
+    Blue glow shadow on hover — matches the accent color,
+    making the button look like it's emitting light.
+  */
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   STEP 5: ABOUT SECTION — avatar placeholder
+───────────────────────────────────────────────────────────── */
+
+.about-avatar {
+  background: var(--card-bg);
+  /*
+    Use the card background color instead of the light accent tint.
+  */
+  border: 1px solid var(--border);
+  color: var(--accent);
+  /*
+    The initials/text inside the avatar stay in the accent blue.
+  */
+}
+
+.skill-badge {
+  background: var(--accent-light);
+  color: var(--accent);
+  border: 1px solid rgba(77, 159, 255, 0.20);
+  /*
+    A thin blue border adds a bit more structure on dark backgrounds,
+    where the transparent fill alone can look too subtle.
+  */
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   STEP 6: PROJECTS SECTION
+───────────────────────────────────────────────────────────── */
+
+#projects {
+  background: var(--card-bg);
+  /*
+    Slightly lighter dark for the projects band —
+    creates a subtle "lifted" section feel.
+  */
+  border-top-color: var(--border);
+  border-bottom-color: var(--border);
+  letter-spacing: 0.03em;
+}
+
+.project-card {
+  background: #0D1117;
+  /*
+    Cards are the darkest layer — same as --bg.
+    On the slightly lighter #projects background, they appear as
+    inset, floating tiles — a sense of depth through layering.
+  */
+  border-color: var(--border);
+  transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+  /*
+    Add border-color to the transition so the border glows in
+    smoothly on hover (see rule below).
+  */
+}
+
+.project-card:hover {
+  border-color: rgba(77, 159, 255, 0.40);
+  /*
+    On hover, the card border shifts from dark to a semi-transparent
+    blue — a subtle "selected" or "active" glow effect.
+  */
+  box-shadow:
+    0 0 0 1px rgba(77, 159, 255, 0.10),
+    0 16px 40px rgba(0, 0, 0, 0.50);
+  /*
+    Two shadows:
+    1. A 1px "inner ring" in a faint blue — reinforces the border glow
+    2. A soft deep shadow below — gives the card depth as it lifts
+  */
+}
+
+.project-tag {
+  background: var(--accent-light);
+  color: var(--accent);
+  border: 1px solid rgba(77, 159, 255, 0.20);
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   STEP 7: CONTACT SECTION
+───────────────────────────────────────────────────────────── */
+
+.contact-email {
+  color: var(--text);
+}
+
+.contact-email:hover {
+  color: var(--accent);
+}
+
+.social-link {
+  background: var(--card-bg);
+  border-color: var(--border);
+  color: var(--muted);
+  transition: border-color 0.2s, color 0.2s, box-shadow 0.2s;
+}
+
+.social-link:hover {
+  color: var(--accent);
+  border-color: rgba(77, 159, 255, 0.45);
+  box-shadow: 0 0 16px rgba(77, 159, 255, 0.12);
+  /*
+    A faint blue aura on hover — the buttons subtly "light up"
+    when the cursor passes over them.
+  */
+  text-decoration: none;
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   STEP 8: SECTION LABELS & DECORATIVE LINE
+───────────────────────────────────────────────────────────── */
+
+.section-label {
+  color: var(--accent);
+  /*
+    The small uppercase label above each section heading
+    already uses --accent, but we confirm it here so it
+    picks up the new brighter blue explicitly.
+  */
+}
+
+.section-label::before {
+  background: var(--accent);
+  /*
+    The decorative horizontal line before the label also updates
+    to the new blue.
+  */
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   STEP 9: FOOTER
+───────────────────────────────────────────────────────────── */
+
+footer {
+  border-top-color: var(--border);
+  background: #0A0F18;
+  /*
+    Slightly darker than --bg — the footer recedes visually,
+    anchoring the page bottom with extra depth.
+  */
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   STEP 10: SCROLLBAR STYLING (Chrome, Edge, Safari)
+   A nice finishing touch — the scrollbar matches the dark theme.
+───────────────────────────────────────────────────────────── */
+
+::-webkit-scrollbar {
+  width: 8px;           /* Thin scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);          /* Track matches the page background */
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);      /* The draggable part is the border color */
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);      /* Turns blue on hover */
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   STEP 11: TEXT SELECTION COLOR
+   When the user highlights text, this controls the color.
+───────────────────────────────────────────────────────────── */
+
+::selection {
+  background: rgba(77, 159, 255, 0.30);
+  /*
+    A 30% opaque blue highlight — recognizable as accent-themed
+    without being so dark it obscures the selected text.
+  */
+  color: var(--text);
+}
+
+.project-icon {
+  width: 100%;
+  height: 120px;          /* ← control image size here */
+  overflow: hidden;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.project-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(50px) scale(0.96);
+  transition: all 0.9s cubic-bezier(.21,1.02,.73,1);
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* stagger effect */
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+    
+
+/* ===== TOOLKIT SECTION — BLENDED DARK THEME ===== */
+
+.toolkit-section {
+  padding: 100px 0;
+  background: var(--card-bg);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+
+/* subtle blue grid instead of neon green */
+.toolkit-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.toolkit-index {
+  color: var(--accent);
+  letter-spacing: 3px;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+.toolkit-title {
+  font-size: clamp(2.2rem,5vw,3.5rem);
+  margin-bottom: 50px;
+  font-family: var(--serif);
+}
+
+.toolkit-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+  gap: 26px;
+}
+
+.tool-card {
+  background: #0D1117;
+  border: 1px solid var(--border);
+  padding: 28px;
+  border-radius: 16px;
+  transition: all .28s ease;
+  position: relative;
+}
+
+/* blue glow hover matching project cards */
+.tool-card {
+  transition: all .35s cubic-bezier(.21,1.02,.73,1);
+}
+
+.tool-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  border-color: rgba(77,159,255,.5);
+
+  box-shadow:
+    0 10px 28px rgba(0,0,0,.6),
+    0 0 0 1px rgba(77,159,255,.12);
+}
+
+.tool-icon {
+  font-size: 24px;
+  margin-bottom: 14px;
+}
+
+.tool-card h3 {
+  font-size: 1.25rem;
+  margin-bottom: 8px;
+  font-family: var(--serif);
+}
+
+.tool-card p {
+  color: var(--muted);
+  font-size: .92rem;
+  line-height: 1.6;
+}
+
+/* ===== PROJECT HOVER UPGRADE ===== */
+
+.project-card {
+  transition: 
+    transform .35s cubic-bezier(.21,1.02,.73,1),
+    box-shadow .35s,
+    border-color .35s;
+}
+
+.project-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  border-color: rgba(77,159,255,0.6);
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.6),
+    0 0 0 1px rgba(77,159,255,0.18),
+    0 0 40px rgba(77,159,255,0.15);
+}
+
+/* ===== PROJECT HOVER UPGRADE ===== */
+
+.project-card {
+  transition: 
+    transform .35s cubic-bezier(.21,1.02,.73,1),
+    box-shadow .35s,
+    border-color .35s;
+}
+
+.project-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  border-color: rgba(77,159,255,0.6);
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.6),
+    0 0 0 1px rgba(77,159,255,0.18),
+    0 0 40px rgba(77,159,255,0.15);
+}
+
+.hero-cta {
+  transition: all .35s cubic-bezier(.21,1.02,.73,1);
+}
+
+.hero-cta:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 
+    0 12px 30px rgba(77,159,255,.35);
+}
+
+.nav-links a {
+  position: relative;
+}
+
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 0%;
+  height: 2px;
+  background: var(--accent);
+  transition: width .3s ease;
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+.container {
+  width: min(1100px, 92%);
+  margin: auto;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.hero-title {
+  font-size: clamp(2.2rem, 6vw, 4.5rem);
+}
+
+.section-heading {
+  font-size: clamp(1.6rem, 4vw, 2.5rem);
+}
+
+.projects-grid,
+.toolkit-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
+  gap: 24px;
+}
+
+@media (max-width: 768px) {
+
+  section {
+    padding: 70px 0;
+  }
+
+  .hero-title {
+    line-height: 1.15;
+  }
+
+  .nav-inner {
+    flex-direction: column;
+    height: auto;
+    gap: 10px;
+    padding: 12px 0;
+  }
+
+  .nav-links {
+    gap: 18px;
+  }
+
+  .toolkit-title {
+    font-size: 2.2rem;
+  }
+
+}
+
+body {
+  overflow-x: hidden;
+}
